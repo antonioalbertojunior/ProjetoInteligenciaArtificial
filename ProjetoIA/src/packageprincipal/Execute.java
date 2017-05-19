@@ -13,13 +13,18 @@ import java.util.List;
  * @author Antonio Junior
  */
 public class Execute {
-    private Ambiente matrizes = new Ambiente();
     
       public static void main(String args[]){
-        Cidade initnode= new Cidade();
-        Cidade finalnode= new Cidade();
-        List<Cidade> nodelist = new ArrayList<Cidade>();
-        //AStar a =  new AStar(matrizes,nodelist,initnode,finalnode);
+          Cidade estadoinicial  =  new Cidade("SP");
+          Cidade estadofinal    = new Cidade("RIB");
+          Heuristica heuristica = new Heuristica(estadoinicial,estadofinal);
+          heuristica.readCsvHeuristica();
+         // Ambiente matrizes = new Ambiente();
+         // matrizes.readCsv();
+         // matrizes.searchNode();
+          
+          //BestFirst bt = new BestFirst();
+          //bt.returnTreeSearch();
         
     }
 }

@@ -12,6 +12,10 @@ package packageprincipal;
 public class Cidade {
     private String nome;
     private String pais;
+    
+    public Cidade(String name){
+        this.nome = name;
+    }
 
     public String getNome() {
         return nome;

@@ -12,8 +12,7 @@ import java.util.List;
  * @author Antonio Junior
  */
 public class BestFirst {
-    private Cidade NosOpened;
-    private Cidade NosClosed; 
+
     
    // Classe principal que conterá a execução do algoritmo: 
 //Contém heurística (objeto classe heurística)/
