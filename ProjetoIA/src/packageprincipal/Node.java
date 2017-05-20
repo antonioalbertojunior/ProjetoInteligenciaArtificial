@@ -14,8 +14,7 @@ import java.util.HashMap;
 public class Node {
     private City name;
     private AdjacencyData adData; //cidade - Adjacencia
-    private final boolean visited=false;
-    private HashMap<City,Integer> data;
+ 
     
     public Node(City city, AdjacencyData ad){
         this.name = city;

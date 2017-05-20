@@ -12,6 +12,13 @@ package packageprincipal;
 public class City {
     private int code;
     private String name;
+    private boolean visited=false;
+    
+    public City(int code,String name,boolean v){
+        this.code = code;
+        this.name = name;
+        this.visited = v;
+    }
     
     public City(int code, String name){
         this.code = code;
@@ -32,6 +39,13 @@ public class City {
     
     public int getCode(){
         return this.code;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+    public void setVisited(boolean bool){
+        visited=bool;
     }
     
     @Override
