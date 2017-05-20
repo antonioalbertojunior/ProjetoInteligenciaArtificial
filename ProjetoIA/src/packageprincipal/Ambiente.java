@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,50 +18,59 @@ import java.util.List;
  */
 public class Ambiente {
 
-    private int matrizvalorada[][] = new int[6][6];
+    private static final int ARRAYSIZE = 6;
+
+    private int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];
     private int matrizadjacencia[][] = new int[10][10];
+    private String vectornamecity[] = new String[ARRAYSIZE];
+    private List<City> listcity = new ArrayList<City>();
 
     private static final String FILENAME = "C:\\Users\\Antonio Junior\\"
             + "Documents\\NetBeansProjects\\"
             + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\matridist.csv";
 
-    public void readMatriz() {
-        for (int i = 0; i < 6; i++) {
-            System.out.println(" ");
-            for (int j = 0; j < 6; j++) {
-                System.out.print(" " + matrizvalorada[i][j]);
-            }
+    public final void setTitleList() {
+        for (int i = 0; i < vectornamecity.length; i++) {
+            City city = new City(i, vectornamecity[i]);
+            this.listcity.add(city);
         }
     }
-
-    public void searchNode() {
-        List<Integer> indl = new ArrayList<>();
-        for (int j = 0; j < 6; j++) {
-            if (matrizvalorada[0][j] != 0) {
-                //System.out.print(" " + matrizvalorada[0][j]);
-                
-                indl.add( matrizvalorada[0][j]);
-            }
-        }
-        for(int i =0;i<indl.size();i++){
-            System.out.println(indl.get(i));
-        }
+    public List<City> getList(){
+        return this.listcity;
     }
 
-    public void readCsv() {
+    public Ambiente() {
+        readCsv();
+        setTitleList();
+    }
+
+    public AdjacencyData returnDataAdjacency(City cidadeinit) {
+        AdjacencyData adjacency = new AdjacencyData();
+        for (int j = 0; j < ARRAYSIZE; j++) {
+            //se o valor da matriz naquele indice de cidade for maior de zero
+            if (matrizvalorada[cidadeinit.getCode()][j] > 0) {
+                adjacency.addAdjacentCity(listcity.get(j), matrizvalorada[cidadeinit.getCode()][j]);
+            }
+        }
+        return adjacency;
+    }
+
+    public final void readCsv() {
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
             String sCurrentLine;
             int cont = 0;
             int index = 0;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (cont == 0) {
+                    sCurrentLine = sCurrentLine.substring(1);
+                    vectornamecity = sCurrentLine.split(";");
                     cont++;
                 } else {
                     int indice = sCurrentLine.indexOf(';') + 1;
                     int tam = sCurrentLine.length();
                     String var = sCurrentLine.substring(indice, tam);
                     String[] g = var.split(";");
-                    for (int i = 0; i < 6; i++) {
+                    for (int i = 0; i < ARRAYSIZE; i++) {
                         matrizvalorada[index][i] = Integer.valueOf(g[i]);
                     }
                     index++;
@@ -72,20 +82,24 @@ public class Ambiente {
         }
     }
 
-    public int[][] getMatrizvalorada() {
-        return matrizvalorada;
+    public void printMatriz() {
+        for (int i = 0; i < ARRAYSIZE; i++) {
+            System.out.println(" ");
+            for (int j = 0; j < ARRAYSIZE; j++) {
+                System.out.print(" " + matrizvalorada[i][j]);
+            }
+        }
     }
 
-    public void setMatrizvalorada(int[][] matrizvalorada) {
-        this.matrizvalorada = matrizvalorada;
-    }
-
-    public int[][] getMatrizadjacencia() {
-        return matrizadjacencia;
-    }
-
-    public void setMatrizadjacencia(int[][] matrizadjacencia) {
-        this.matrizadjacencia = matrizadjacencia;
+    public int[] getMatrizIndex(City cd) {
+        int index = cd.getCode();
+        int vetor[] = new int[ARRAYSIZE];
+        int cont = 0;
+        while (cont < ARRAYSIZE) {
+            vetor[cont] = matrizadjacencia[index][cont];
+            cont++;
+        }
+        return vetor;
     }
 
 }
