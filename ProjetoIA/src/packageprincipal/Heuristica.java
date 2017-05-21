@@ -21,9 +21,9 @@ public class Heuristica {
 
     private List<Integer> confiabilidade = new ArrayList();
     private List<Integer> distancia = new ArrayList();
+    private int flag = 0;
 
     public final void readCsvHeuristica() {
-        int index = 0;
         final String FILENAME = "C:\\Users\\Antonio Junior\\Documents\\NetBeansProjects\\"
                 + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\heu_sp_rib.csv";
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
@@ -55,26 +55,6 @@ public class Heuristica {
         this.readCsvHeuristica();
     }
 
-    public int searchCityOne(City cd) {
-        int indexcidade = 0;
-        for (int i = 0; i < confiabilidade.size(); i++) {
-            if (i == cd.getCode()) {
-                indexcidade = confiabilidade.get(i);
-            }
-        }
-        return indexcidade;
-    }
-
-    public int searchCityTwo(City cd) {
-        int indexcidade = 0;
-        for (int i = 0; i < distancia.size(); i++) {
-            if (i == cd.getCode()) {
-                indexcidade = distancia.get(i);
-            }
-        }
-        return indexcidade;
-    }
-
     public void printDistancia() {
         for (int i = 0; i < distancia.size(); i++) {
             System.out.println("Codigo Cidade:" + i + " " + distancia.get(i));
@@ -93,47 +73,50 @@ public class Heuristica {
         return nov;
     }
 
-    public int sumHeuristic(int index) {
+    public int heuristicFunction(int index) {
         int nov = confiabilidade.get(index) + distancia.get(index);
         // int value =   distancia.get(index)+ confiabilidade.get(index);
         return nov;
     }
 
-    //para cada cidade do nó fazer
-    public City heuristicFunction(Node nodes, City cd1, City cd2) {
+    public City returnNextCity(Node nodes, City cd2, List<City> city) {
         AdjacencyData adj = nodes.getNodeAdjacencyData();
         HashMap<Integer, Integer> hash = new HashMap<>();
         City nextCity = null;
 
-        if (cd1.isVisited() == false) {
-            cd1.setVisited(true);
-            //iteracao para verificar todos os nos adjacentes
-            for (City key : adj.getAdjacencyData().keySet()) {
-                int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
-                int sum = sumHeuristic(key.getCode());
-
-                if (sum != 0) {
-                    hash.put(key.getCode(), sumHeuristic(key.getCode()));
-                    System.out.println(key.getCode() + " " + dist + " " + searchOnMatrix(key.getCode()) + "  " + sum);
-                }
+        for (int c = 0; c < city.size(); c++) {
+            if (city.get(c).getCode() == cd2.getCode()) {
+                //System.out.println("jatem");
+                return new City(-1, "");
             }
-        } else {
-            return new City(-1, "");
         }
-        //verifica o menor valor do hashmap
+        
+        //iteracao para verificar todos os nos adjacentes
+        for (City key : adj.getAdjacencyData().keySet()) {
+            int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
+            int sum = heuristicFunction(key.getCode()) + dist;
+            
+            //distancia real entre origem e destino
+            hash.put(key.getCode(), sum);
+            System.out.println(key.getCode() + " " + dist + " " + searchOnMatrix(key.getCode()) + "  " + sum);
+
+        }
+
+        //verifica o menor valor de fn dos nós adjacentes
         int min = Collections.min(hash.values());
-        System.out.println(min);
+        System.out.println("Menor valor da iteracao: " + min);
 
         // iteracao para pegar a cidade do hashmap e fazer a proxima iteracao a partir dela
         for (City key : adj.getAdjacencyData().keySet()) {
-            int sum = sumHeuristic(key.getCode());
+            int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
+            int sum = heuristicFunction(key.getCode()) + dist;
+            // System.out.println(sum+"' ' "+min);
             if (sum == min) {
                 nextCity = new City(key.getCode(), key.getName());
             }
         }
+        city.add(nextCity);
         return nextCity;
-    }
-    //Função heurística: recebe como parâmetro a Matriz de adjacência e o Nopresidente estado final. 
-    //Retorna as heurísticas nos nós dos presidentes com relação ao estado objetivo. 
 
+    }
 }

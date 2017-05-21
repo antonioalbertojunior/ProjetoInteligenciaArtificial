@@ -5,6 +5,7 @@
  */
 package packageprincipal;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,30 +14,31 @@ import java.util.List;
  */
 public class BestFirst {
 
-    public BestFirst(Ambiente matrizes, Node nodes, City currentcity, City finalcity) {
-        Heuristica heu = new Heuristica(finalcity);
+    public List<City> cid;
 
-        //retornar o nos adjacentes do estadoinicial
-        // AdjacencyData adjnodes = matrizes.returnDataAdjacency(currentcity);
-        //System.out.println(adjnodes.getAllAdjacencyData());
-        //Node noinit = new Node(currentcity,adjnodes);
+    public BestFirst(Ambiente matrizes, Node nodes, City initcity, City finalcity) {
+        Heuristica heu = new Heuristica(finalcity);
+        cid = new ArrayList<>();
         boolean end = false;
-        //enquanto cidade objetivo nao chegar faça...
-        City cy = heu.heuristicFunction(nodes, currentcity, finalcity);
+
+        cid.add(initcity);
+        City cy = heu.returnNextCity(nodes, finalcity, cid);
         while (end != true) {
-            if (cy.getCode() == -1 && cy.getName() == "") {
+            AdjacencyData adjnodes = matrizes.returnDataAdjacency(cy);
+            Node noinit = new Node(cy, adjnodes);
+            cy = heu.returnNextCity(noinit, finalcity, cid);
+            if (cy.getCode() == -1) {
                 end = true;
-            } else {
-                AdjacencyData adjnodes = matrizes.returnDataAdjacency(cy);
-                Node noinit = new Node(cy, adjnodes);
-                cy = heu.heuristicFunction(noinit, cy, finalcity); 
             }
-            //pegar todos os nós diferentes de 0
-            //aplicar o método da funçao heuristica para cada nó
-            //heuristica.heuristicFunction(,no);
-            //verifica o menor funcao heurística..
-            // continua iteraçao até achar o estado final
         }
+    }
+
+    public void returnTree() {
+        System.out.print("\nCaminho Best First: ");
+        for (int i = 0; i < cid.size(); i++) {
+            System.out.print(cid.get(i).getName() + " ");
+        }
+        System.out.println("\n");
     }
 
 }

@@ -12,19 +12,13 @@ package packageprincipal;
 public class Execute {
 
     public static void main(String args[]) {
-        Ambiente matrizes = new Ambiente();
-        City estadoinicial = new City(0, "sp");
-        City estadofinal = new City(6, "rib");
+        Ambiente matrizes   = new Ambiente();
+        City estadoinicial  = new City(0, "sp");
+        City estadofinal    = new City(6, "rib");
 
         AdjacencyData adjnodes = matrizes.returnDataAdjacency(estadoinicial);
         Node noinit = new Node(estadoinicial, adjnodes);
         BestFirst bf = new BestFirst(matrizes, noinit, estadoinicial, estadofinal);
-
-        //sHeuristica heu = new Heuristica(estadofinal);
-        //retornar o nos adjacentes do estadoinicial
-        //AdjacencyData adjnodes = matrizes.returnDataAdjacency(estadoinicial);
-        //System.out.println(adjnodes.getAllAdjacencyData());
-        //Node noinit = new Node(estadoinicial,adjnodes);
-        //System.out.println("Nos\n"+noinit.getAllAdjacentNodes());
+        bf.returnTree();
     }
 }

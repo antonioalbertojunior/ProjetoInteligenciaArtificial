@@ -14,6 +14,9 @@ public class City {
     private String name;
     private boolean visited=false;
     
+    public City(){
+        
+    }
     public City(int code,String name,boolean v){
         this.code = code;
         this.name = name;
