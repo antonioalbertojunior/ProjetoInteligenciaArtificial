@@ -13,8 +13,8 @@ public class Execute {
 
     public static void main(String args[]) {
         Ambiente matrizes   = new Ambiente();
-        City estadoinicial  = new City(0, "sp");
-        City estadofinal    = new City(6, "rib");
+        City estadoinicial  = new City(0, "campinas");
+        City estadofinal    = new City(10, "rib");
 
         AdjacencyData adjnodes = matrizes.returnDataAdjacency(estadoinicial);
         Node noinit = new Node(estadoinicial, adjnodes);

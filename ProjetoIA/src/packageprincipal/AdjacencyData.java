@@ -6,7 +6,7 @@
 package packageprincipal;
 
 import java.util.HashMap;
-import java.util.List;
+
 
 /**
  *
@@ -47,6 +47,9 @@ public class AdjacencyData {
         return result;
     }
 
+    public void set(HashMap<City,Integer> param){
+        this.adjacencyData =param;
+    }
     public Integer getCityAdjacencyData(City city) {
         boolean existe = adjacencyData.containsKey(city);
         if (existe) {

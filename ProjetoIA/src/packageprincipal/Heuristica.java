@@ -25,7 +25,7 @@ public class Heuristica {
 
     public final void readCsvHeuristica() {
         final String FILENAME = "C:\\Users\\Antonio Junior\\Documents\\NetBeansProjects\\"
-                + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\heu_sp_rib.csv";
+                + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\riberao.csv"; //heu_sp_rib
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
             String sCurrentLine;
             int cont = 0;
@@ -68,7 +68,7 @@ public class Heuristica {
     }
 
     public String searchOnMatrix(int index) {
-        String nov = confiabilidade.get(index).toString() + " " + distancia.get(index).toString();
+        String nov = "[" + confiabilidade.get(index).toString() + "," + distancia.get(index).toString() + "]";
         // int value =   distancia.get(index)+ confiabilidade.get(index);
         return nov;
     }
@@ -83,28 +83,80 @@ public class Heuristica {
         AdjacencyData adj = nodes.getNodeAdjacencyData();
         HashMap<Integer, Integer> hash = new HashMap<>();
         City nextCity = null;
+      
+        
+        HashMap<City, Integer> mp = adj.getAdjacencyData();
 
+        for (City ct : mp.keySet()) {
+            System.out.println(ct.getCode() +" " +ct.getName()+" Estoa");
+        }
+        for (int i = 0; i < city.size(); i++) {
+            System.out.print(city.get(i) + ",");
+        }
+        
+        List<City> listcity = new ArrayList<>();
+        HashMap<City,Integer> temphash = mp;
+        City cit;
+        for (City ct : mp.keySet()){
+            System.out.println("\nCidade ->" + ct.getName() + " " + ct.getCode());
+            for (int i = 0; i < city.size(); i++) {
+                if (ct.getCode() == city.get(i).getCode()) {
+                    System.out.println(ct.getName() + "Nó Adj APAGADO");
+                    //cit = ct;
+                    listcity.add(ct);
+                    // temphash= mp;//.remove(ct);
+                    //City temp= new City(ct.getCode(),ct.getName());
+                    //temphash.remove(cit);
+                }
+            }
+
+           // System.out.println(ct.getCode()+" "+ct.getName() +" "+ mp.get(ct).toString());
+        }
+        
+        for(int i =0;i<listcity.size();i++){
+            mp.remove(listcity.get(i));
+        }
+        
+        
+
+        adj.set(temphash);
+
+        city.get(flag).setVisited(true);
+
+        /* for (City key : adj.getAdjacencyData().keySet()) {
+         code = key.getCode();
+         for (int i = 0; i < city.size(); i++) {
+         if (code == city.get(i).getCode()) {
+         adj.getAdjacencyData().remove(key);
+         }
+
+         }
+
+         }*/
+        flag++;
+
+        //checar nó final
         for (int c = 0; c < city.size(); c++) {
             if (city.get(c).getCode() == cd2.getCode()) {
-                //System.out.println("jatem");
                 return new City(-1, "");
             }
         }
-        
+
+        System.out.println("Cod  Distancia   Heuristica   f(n)");
         //iteracao para verificar todos os nos adjacentes
         for (City key : adj.getAdjacencyData().keySet()) {
             int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
             int sum = heuristicFunction(key.getCode()) + dist;
-            
             //distancia real entre origem e destino
             hash.put(key.getCode(), sum);
-            System.out.println(key.getCode() + " " + dist + " " + searchOnMatrix(key.getCode()) + "  " + sum);
+            System.out.println(key.getCode() + "    " + dist + "    " + searchOnMatrix(key.getCode()) + "   " + sum);
 
         }
 
         //verifica o menor valor de fn dos nós adjacentes
         int min = Collections.min(hash.values());
-        System.out.println("Menor valor da iteracao: " + min);
+        System.out.println("Menor de f(n) neste nó: " + min);
+        System.out.println("");
 
         // iteracao para pegar a cidade do hashmap e fazer a proxima iteracao a partir dela
         for (City key : adj.getAdjacencyData().keySet()) {
@@ -115,7 +167,9 @@ public class Heuristica {
                 nextCity = new City(key.getCode(), key.getName());
             }
         }
+
         city.add(nextCity);
+
         return nextCity;
 
     }

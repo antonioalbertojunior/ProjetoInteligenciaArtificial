@@ -18,8 +18,9 @@ import java.util.List;
  */
 public class Ambiente {
 
-    private static final int ARRAYSIZE = 7;
-
+    private static final int ARRAYSIZE = 11;
+    //private static final int ARRAYSIZE = 7;
+    
     private int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];
     private int matrizadjacencia[][] = new int[10][10];
     private String vectornamecity[] = new String[ARRAYSIZE];
@@ -27,10 +28,11 @@ public class Ambiente {
 
     private static final String FILENAME = "C:\\Users\\Antonio Junior\\"
             + "Documents\\NetBeansProjects\\"
-            + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\matridist.csv";
+            + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\nc.csv";
 
     public final void setTitleList() {
         for (int i = 0; i < vectornamecity.length; i++) {
+            //System.out.println(i+"  w "+ vectornamecity[i]);
             City city = new City(i, vectornamecity[i]);
             this.listcity.add(city);
         }
@@ -62,7 +64,7 @@ public class Ambiente {
             int index = 0;
             while ((sCurrentLine = br.readLine()) != null) {
                 if (cont == 0) {
-                    sCurrentLine = sCurrentLine.substring(1);
+                    sCurrentLine = sCurrentLine.substring(2);
                     vectornamecity = sCurrentLine.split(";");
                     cont++;
                 } else {

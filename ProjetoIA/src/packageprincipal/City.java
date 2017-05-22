@@ -44,7 +44,7 @@ public class City {
         return this.code;
     }
 
-    public boolean isVisited() {
+    public boolean wasVisited() {
         return visited;
     }
     public void setVisited(boolean bool){
