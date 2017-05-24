@@ -14,31 +14,37 @@ import java.util.List;
  */
 public class BestFirst {
 
-    public List<City> cid;
+    public List<City> listnodesvisited;
 
     public BestFirst(Ambiente matrizes, Node nodes, City initcity, City finalcity) {
         Heuristica heu = new Heuristica(finalcity);
-        cid = new ArrayList<>();
+        listnodesvisited = new ArrayList<>();
         boolean end = false;
-
-        cid.add(initcity);
-        City cy = heu.returnNextCity(nodes, finalcity, cid);
+        initcity.setVisited(true);
+        listnodesvisited.add(initcity);
+        City cy = heu.getNextCity(nodes, finalcity, listnodesvisited);
+       // while (!listnodesvisited.contains(finalcity)){
         while (end != true) {
             AdjacencyData adjnodes = matrizes.returnDataAdjacency(cy);
             Node noinit = new Node(cy, adjnodes);
-            cy = heu.returnNextCity(noinit, finalcity, cid);
+            cy = heu.getNextCity(noinit, finalcity, listnodesvisited);
             if (cy.getCode() == -1) {
                 end = true;
             }
         }
+        
     }
 
     public void returnTree() {
         System.out.print("\nCaminho Best First: ");
-        for (int i = 0; i < cid.size(); i++) {
-            System.out.print(cid.get(i).getName() + " ");
+        for (int i = 0; i < listnodesvisited.size(); i++) {
+            System.out.print(listnodesvisited.get(i).getName() + " ");
         }
         System.out.println("\n");
+    }
+    
+    public boolean getVisitedNode(City ci){
+        return ci.wasVisited()==true;
     }
 
 }

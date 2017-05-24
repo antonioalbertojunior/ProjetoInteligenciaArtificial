@@ -42,6 +42,10 @@ public class Node {
     public String getAllAdjacentNodes(){
         return this.adData.getAllAdjacencyData();
     }
+    
+    public City getCurrentCity(){
+        return name;
+    }
 }
 
 
