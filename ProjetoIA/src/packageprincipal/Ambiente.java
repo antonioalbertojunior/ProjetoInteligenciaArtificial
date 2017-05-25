@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class Ambiente {
 
-    private static final int ARRAYSIZE = 11;
+    private static final int ARRAYSIZE = 13;
     //private static final int ARRAYSIZE = 7;
     
     private int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];

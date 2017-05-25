@@ -22,8 +22,6 @@ public class Heuristica {
     private List<Integer> confiabilidade = new ArrayList();
     private List<Integer> distancia = new ArrayList();
     private int flag = 0;
-    private City nodeant;
-    private List<City> nodecityant = new ArrayList();
     List<Integer> arr = new ArrayList<>();
     HashMap<AdjacencyData, Integer> ahs = new HashMap();
 
@@ -71,22 +69,22 @@ public class Heuristica {
         return nov;
     }
 
-    public City ans(AdjacencyData adj) {
+    public City getNextMinNode(AdjacencyData adj) {
         List<Integer> ks = new ArrayList();
         for (City key : adj.getAdjacencyData().keySet()) {
             int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
             int sum = heuristicFunction(key.getCode()) + dist;
-
             ks.add(sum);
         }
 
         Collections.sort(ks);
-        int soma = ks.get(1);
-
+        int soma = ks.get(flag);
+        flag++;
+        System.out.println(ks+""+soma);
         for (City key : adj.getAdjacencyData().keySet()) {
             int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
             int sum = heuristicFunction(key.getCode()) + dist;
-            if (soma == sum) {
+            if (soma == sum) {    
                 return key;
             }
         }
@@ -95,8 +93,6 @@ public class Heuristica {
 
     public City getCityWithMinFunction(AdjacencyData adj, List<City> list) {
         HashMap<City, Integer> hash = new HashMap<>();
-
-        HashMap<City, Integer> mp = adj.getAdjacencyData();
         ahs.put(adj, adj.getQuantAdj());
         int max = Collections.max(ahs.values());
 
@@ -104,32 +100,6 @@ public class Heuristica {
         boolean ok = false;
         AdjacencyData as = new AdjacencyData();
 
-        List<City> listcity = new ArrayList<>();
-
-        /*HashMap<City, Integer> temphash = mp;
-         City cit;
-         for (City ct : mp.keySet()) {
-         System.out.println("\nCidade ->" + ct.getName() + " " + ct.getCode());
-         for (int i = 0; i < list.size(); i++) {
-         if (ct.getCode() == list.get(i).getCode()) {
-         System.out.println(ct.getName() + " Nó Adj APAGADO");
-         //cit = ct;
-         listcity.add(ct);
-         // temphash= mp;//.remove(ct);
-         //City temp= new City(ct.getCode(),ct.getName());
-         //temphash.remove(cit);
-         }
-         }
-         }
-
-         for(int i =0;i<listcity.size();i++){
-         mp.remove(listcity.get(i));
-         }
-        
-       
-         adj.set(temphash);
-        
-         System.out.println(temphash); */
         System.out.println("\nCod  Distancia   Heuristica   f(n)");
         HashMap<Integer, City> temphash = new HashMap<>();
         //Para cada nó adjacente calcular f(n)
@@ -165,14 +135,12 @@ public class Heuristica {
                         // System.out.println(adt.getAdjacencyData());
                     }
                     if (ok == true) {
-                        return ans(as);
+                        //incremtar a flag
+                        return getNextMinNode(as);
                     }//arr
                 }
             }
         }
-
-        //System.out.println("Este"+arr.get(flag)+" "+flag);
-        //return temphash.get(arr.get(flag-1));
         return new City(-1, "");
     }
 
@@ -198,7 +166,6 @@ public class Heuristica {
             nextCity = getCityWithMinFunction(adj, city);
             System.out.println("-------------------------------");
             city.add(nextCity);
-            flag++;
             return nextCity;
         }
 
