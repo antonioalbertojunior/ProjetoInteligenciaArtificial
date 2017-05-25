@@ -53,6 +53,14 @@ public class AdjacencyData {
     public void set(HashMap<City, Integer> param) {
         this.adjacencyData = param;
     }
+    
+    public int getQuantAdj(){
+        int cont=0; 
+        for (City key : this.adjacencyData.keySet()) {
+            cont++;
+        }
+        return cont;
+    }
 
     public Integer getCityAdjacencyData(City city) {
         boolean existe = adjacencyData.containsKey(city);
