@@ -20,14 +20,14 @@ public class Ambiente {
     private static final int ARRAYSIZE = 13;
     //private static final int ARRAYSIZE = 7;
     
-    private int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];
+    private final int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];
     private int matrizadjacencia[][] = new int[10][10];
     private String vectornamecity[] = new String[ARRAYSIZE];
     private List<City> listcity = new ArrayList<City>();
 
     private static final String FILENAME = "C:\\Users\\Antonio Junior\\"
             + "Documents\\NetBeansProjects\\"
-            + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\nc.csv";
+            + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\teste.csv";
 
     public final void setTitleList() {
         for (int i = 0; i < vectornamecity.length; i++) {

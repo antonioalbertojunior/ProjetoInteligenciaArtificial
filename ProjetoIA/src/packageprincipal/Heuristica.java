@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class Heuristica {
 
-    private List<Integer> confiabilidade = new ArrayList();
-    private List<Integer> distancia = new ArrayList();
+    private final List<Integer> confiabilidade = new ArrayList();
+    private final List<Integer> distancia = new ArrayList();
     private int flag = 0;
     List<Integer> arr = new ArrayList<>();
     HashMap<AdjacencyData, Integer> ahs = new HashMap();
