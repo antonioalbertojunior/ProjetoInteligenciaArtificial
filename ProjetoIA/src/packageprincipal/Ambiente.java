@@ -17,22 +17,19 @@ import java.util.List;
  */
 public class Ambiente {
 
-    private static final int ARRAYSIZE = 13;
-    //private static final int ARRAYSIZE = 7;
+    private static final int ARRAYSIZE =11;
+    //private static final int ARRAYSIZE =27;
     
     private final int matrizvalorada[][] = new int[ARRAYSIZE][ARRAYSIZE];
-    private int matrizadjacencia[][] = new int[10][10];
     private String vectornamecity[] = new String[ARRAYSIZE];
-    private List<City> listcity = new ArrayList<City>();
+    private final List<City> listcity = new ArrayList<>();
 
-    private static final String FILENAME = "C:\\Users\\Antonio Junior\\"
-            + "Documents\\NetBeansProjects\\"
-            + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\teste.csv";
+    private static final String FILENAME = "dados/teste/matriz.csv";
 
     public final void setTitleList() {
         for (int i = 0; i < vectornamecity.length; i++) {
-            //System.out.println(i+"  w "+ vectornamecity[i]);
             City city = new City(i, vectornamecity[i]);
+            //System.out.println(city.getName()+" nome" );
             this.listcity.add(city);
         }
     }
@@ -53,6 +50,7 @@ public class Ambiente {
                 adjacency.addAdjacentCity(listcity.get(j), matrizvalorada[cidadeinit.getCode()][j]);
             }
         }
+        //System.out.println(adjacency.getAdjacencyData());
         return adjacency;
     }
 
@@ -90,17 +88,6 @@ public class Ambiente {
                 System.out.print(" " + matrizvalorada[i][j]);
             }
         }
-    }
-
-    public int[] getMatrizIndex(City cd) {
-        int index = cd.getCode();
-        int vetor[] = new int[ARRAYSIZE];
-        int cont = 0;
-        while (cont < ARRAYSIZE) {
-            vetor[cont] = matrizadjacencia[index][cont];
-            cont++;
-        }
-        return vetor;
     }
 
 }

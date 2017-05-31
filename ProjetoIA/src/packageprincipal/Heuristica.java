@@ -24,10 +24,10 @@ public class Heuristica {
     private int flag = 0;
     List<Integer> arr = new ArrayList<>();
     HashMap<AdjacencyData, Integer> ahs = new HashMap();
+    final String FILENAME = "dados/teste/ribeirao.csv";
 
     public final void readCsvHeuristica() {
-        final String FILENAME = "C:\\Users\\Antonio Junior\\Documents\\NetBeansProjects\\"
-                + "ProjetoInteligenciaArtificial\\ProjetoIA\\dados\\riberao.csv"; //heu_sp_rib
+
         try (BufferedReader br = new BufferedReader(new FileReader(FILENAME))) {
             String sCurrentLine;
             int cont = 0;
@@ -76,15 +76,14 @@ public class Heuristica {
             int sum = heuristicFunction(key.getCode()) + dist;
             ks.add(sum);
         }
-
         Collections.sort(ks);
         int soma = ks.get(flag);
         flag++;
-        System.out.println(ks+""+soma);
+        //System.out.println(ks+"AQUI"+soma);
         for (City key : adj.getAdjacencyData().keySet()) {
             int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
             int sum = heuristicFunction(key.getCode()) + dist;
-            if (soma == sum) {    
+            if (soma == sum) {
                 return key;
             }
         }
@@ -96,7 +95,6 @@ public class Heuristica {
         ahs.put(adj, adj.getQuantAdj());
         int max = Collections.max(ahs.values());
 
-        System.out.println(max);
         boolean ok = false;
         AdjacencyData as = new AdjacencyData();
 
@@ -108,16 +106,20 @@ public class Heuristica {
             int sum = heuristicFunction(key.getCode()) + dist;
             //distancia real entre origem e destino
             hash.put(new City(key.getCode(), key.getName()), sum);
+            //adiconar no mapa conforme vai calculando
             temphash.put(sum, key);
             arr.add(sum);
-            System.out.println(key.getCode() + "    " + dist + "    " + searchOnMatrix(key.getCode()) + "   " + sum);
+            System.out.println(key.getCode() + 1 + " "
+                    + dist + "    " + searchOnMatrix(key.getCode()) + "   " + sum);
         }
 
         //verifica o menor valor de f(n) dos nós adjacentes
         Collections.sort(arr);
         int minfn = Collections.min(hash.values());
-        System.out.println("Menor de f(n) neste nó: " + arr.get(1));
+        System.out.println("Menor de f(n) neste nó: " + arr.get(0));
 
+        // verifica se menor contem na lista
+        // se sim retorna -1
         // iteracao para pegar a cidade do hashmap e fazer a proxima iteracao a partir dela
         for (City key : adj.getAdjacencyData().keySet()) {
             int dist = Integer.valueOf(adj.getAdjacencyData().get(key).toString());
@@ -125,34 +127,35 @@ public class Heuristica {
             if (minfn == sum) {
                 if (!list.contains(key)) {
                     return key;
-                } else {
-                    System.out.println("Nao tem caminho");
-                    for (AdjacencyData adt : ahs.keySet()) {
-                        if (adt.getQuantAdj() == max) {
-                            ok = true;
-                            as = adt;
-                        }
-                        // System.out.println(adt.getAdjacencyData());
+                }
+                System.out.println("Nao tem caminho");
+                for (AdjacencyData adt : ahs.keySet()) {
+                    if (adt.getQuantAdj() == max) {
+                        ok = true;
+                        as = adt;
                     }
-                    if (ok == true) {
-                        //incremtar a flag
-                        return getNextMinNode(as);
-                    }//arr
+                    // System.out.println(adt.getAdjacencyData());
+                }
+                if (ok == true) {
+                    //incremtar a flag
+                    return getNextMinNode(as);
                 }
             }
         }
+
         return new City(-1, "");
     }
 
     public City getNextCity(Node nodes, City cd2, List<City> city) {
+        if (city.contains(cd2)) {
+            return new City(-1, "");
+        }
         AdjacencyData adj = nodes.getNodeAdjacencyData();
         City nextCity = null;
         boolean has = false;
 
-        System.out.println("Cidade Atual: " + nodes.getCurrentCity().getCode());
-        for (int c = 0; c < city.size(); c++) {
-            System.out.print(city.get(c) + " ");
-        }
+        System.out.println("Cidade Atual: " + (nodes.getCurrentCity().getCode() + 1) + " " + (nodes.getCurrentCity().getName()));
+
         //checar nó final
         for (int c = 0; c < city.size(); c++) {
             if (city.get(c).getCode() == cd2.getCode()) {
