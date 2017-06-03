@@ -24,7 +24,7 @@ public class Ambiente {
     private String vectornamecity[] = new String[ARRAYSIZE];
     private final List<City> listcity = new ArrayList<>();
 
-    private static final String FILENAME = "dados/teste/matriz.csv";
+    private static final String FILENAME = "dados/teste/antonio/matriz.csv";
 
     public final void setTitleList() {
         for (int i = 0; i < vectornamecity.length; i++) {

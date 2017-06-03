@@ -24,7 +24,7 @@ public class Heuristica {
     private int flag = 0;
     List<Integer> arr = new ArrayList<>();
     HashMap<AdjacencyData, Integer> ahs = new HashMap();
-    final String FILENAME = "dados/teste/ribeirao.csv";
+    final String FILENAME = "dados/teste/antonio/heuristica.csv";
 
     public final void readCsvHeuristica() {
 
@@ -153,8 +153,8 @@ public class Heuristica {
         AdjacencyData adj = nodes.getNodeAdjacencyData();
         City nextCity = null;
         boolean has = false;
-
-        System.out.println("Cidade Atual: " + (nodes.getCurrentCity().getCode() + 1) + " " + (nodes.getCurrentCity().getName()));
+        //+ (nodes.getCurrentCity().getCode() + 1)
+        System.out.println("Cidade Atual: "  + " " + (nodes.getCurrentCity().getName()));
 
         //checar nó final
         for (int c = 0; c < city.size(); c++) {

@@ -23,7 +23,7 @@ public class BestFirst {
         initcity.setVisited(true);
         listnodesvisited.add(initcity);
         City cy = heu.getNextCity(nodes, finalcity, listnodesvisited);
-       // while (!listnodesvisited.contains(finalcity)){
+        // while (!listnodesvisited.contains(finalcity)){
         while (end != true) {
             AdjacencyData adjnodes = matrizes.returnDataAdjacency(cy);
             Node noinit = new Node(cy, adjnodes);
@@ -32,19 +32,21 @@ public class BestFirst {
                 end = true;
             }
         }
-        
+
     }
 
-    public void returnTree() {
-        System.out.print("\nCaminho Best First: ");
+    public String returnTree() {
+        String result = "";
+        result += "\nCaminho Best First: \n";
         for (int i = 0; i < listnodesvisited.size(); i++) {
-            System.out.print(listnodesvisited.get(i).getName() + " ");
+            result +="Node->" + listnodesvisited.get(i).getName() + " " + "\n";
         }
         System.out.println("\n");
+        return result;
     }
-    
-    public boolean getVisitedNode(City ci){
-        return ci.wasVisited()==true;
+
+    public boolean getVisitedNode(City ci) {
+        return ci.wasVisited() == true;
     }
 
 }

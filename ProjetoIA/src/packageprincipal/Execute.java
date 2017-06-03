@@ -13,12 +13,12 @@ public class Execute {
 
     public static void main(String args[]) {
         Ambiente matrizes   = new Ambiente();
-        City estadoinicial  = new City(0,"Campinas");
-        City estadofinal    = new City(10,"Curitiba");
+        City estadoinicial  = new City(0,"0");
+        City estadofinal    = new City(10,"10");
 
         AdjacencyData adjnodes = matrizes.returnDataAdjacency(estadoinicial);
         Node noinit = new Node(estadoinicial, adjnodes);
         BestFirst bf = new BestFirst(matrizes, noinit, estadoinicial, estadofinal);
-        bf.returnTree();
+        System.out.println(bf.returnTree());
     }
 }
